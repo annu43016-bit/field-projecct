@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThyroVision AI | Real Dataset Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <nav class="navbar">
+    <a class="brand" href="#"><span class="brand-mark">✦</span><span>thyro<span class="brand-accent">vision</span><small>AI HEALTH LAB</small></span></a>
+    <div class="nav-links"><a href="#overview">Overview</a><a href="#predictor">AI Predictor</a><a href="#insights">Insights</a></div>
+    <a class="nav-pill" href="#predictor"><span class="pulse-dot"></span> Explore model</a>
+  </nav>
+
+  <main>
+    {% if dataset_error %}
+    <section class="notice" style="margin-top:24px"><div class="notice-icon">!</div><div><b>Dataset could not be loaded</b><p>Connect to the internet and restart the Flask app. The website will not generate predictions from made-up data.</p></div></section>
+    {% endif %}
+    <section class="hero" id="overview">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> MACHINE LEARNING · HEALTH ANALYTICS</div>
+        <h1>Understand your<br><span class="gradient-text">thyroid patterns.</span></h1>
+        <p class="hero-text">Explore how machine learning can interpret thyroid-related lab values and highlight patterns that may need attention.</p>
+        <div class="hero-actions"><a class="primary-btn" href="#predictor">Try the AI predictor <span>↗</span></a><a class="text-btn" href="#how-it-works">How it works <span>↓</span></a></div>
+        <div class="hero-proof"><div class="avatar-stack"><i>✦</i><i>+</i><i>◈</i></div><span>Public dataset · Reproducible model · Educational use</span></div>
+      </div>
+      <div class="hero-art">
+        <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div class="orbit orbit-c"></div>
+        <div class="glow-core"><div class="thyroid-icon"><svg viewBox="0 0 220 190" role="img" aria-label="Stylized thyroid illustration"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f1b5ff"/><stop offset="1" stop-color="#8a6cff"/></linearGradient><filter id="blur"><feGaussianBlur stdDeviation="5"/></filter></defs><path d="M107 88 C89 43 53 49 48 87 C43 126 67 155 91 143 C106 136 108 111 110 97 C112 111 114 136 129 143 C153 155 177 126 172 87 C167 49 131 43 113 88" fill="url(#g)" opacity=".22" filter="url(#blur)"/><path d="M107 87 C90 48 57 54 54 88 C50 121 69 148 91 137 C104 131 107 108 110 96 C113 108 116 131 129 137 C151 148 170 121 166 88 C163 54 130 48 113 87" fill="none" stroke="#d9b8ff" stroke-width="3.5"/><path d="M110 75 L110 132 M94 96 C101 101 103 109 104 118 M126 96 C119 101 117 109 116 118" fill="none" stroke="#bba0ff" stroke-width="2" opacity=".8"/><circle cx="110" cy="94" r="5" fill="#f5d9ff"/></svg></div></div>
+        <div class="floating-chip chip-top"><span class="chip-dot"></span> UCI dataset model</div><div class="floating-chip chip-bottom"><b>4</b><span>Key lab markers</span></div>
+        <div class="art-caption">THYROID · DATA · DISCOVERY</div>
+      </div>
+    </section>
+
+    <section class="metrics" id="insights">
+      <div class="metric-card"><span class="metric-icon">⌁</span><div><strong>5</strong><small>LAB INPUT MARKERS</small></div><span class="metric-note">TSH · T3 · T4 · T3 uptake</span></div>
+      <div class="metric-card"><span class="metric-icon">◎</span><div><strong>{{ accuracy if accuracy is not none else '—' }}<em>%</em></strong><small>HELD-OUT TEST ACCURACY</small></div><span class="metric-note">25% unseen test split</span></div>
+      <div class="metric-card"><span class="metric-icon">✧</span><div><strong>3</strong><small>CLINICAL CLASSES</small></div><span class="metric-note">For educational use</span></div>
+    </section>
+
+    <section class="workspace" id="predictor">
+      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> INTERACTIVE LAB</div><h2>Thyroid <span class="gradient-text">AI predictor</span></h2><p>Enter five thyroid test measurements from the documented dataset to explore the model output.</p></div><div class="live-tag"><span class="pulse-dot"></span> MODEL STATUS</div></div>
+      <div class="predict-grid">
+        <div class="panel input-panel">
+          <div class="panel-head"><div><span class="step-label">01 / INPUT DATA</span><h3>Thyroid test measurements</h3></div><span class="panel-symbol">⌘</span></div>
+          <form id="predictionForm">
+            <div class="field-row"><label for="t3_resin">T3-resin uptake test <span>dataset units</span></label><input id="t3_resin" type="number" step="0.1" value="110" required><div class="range-note">Enter the measured value from the test report.</div></div>
+            <div class="field-row"><label for="total_thyroxin">Total serum thyroxin <span>dataset units</span></label><input id="total_thyroxin" type="number" step="0.1" value="9.5" required></div>
+            <div class="field-row"><label for="total_triiodothyronine">Total serum triiodothyronine <span>dataset units</span></label><input id="total_triiodothyronine" type="number" step="0.1" value="1.8" required></div>
+            <div class="field-row"><label for="basal_tsh">Basal TSH <span>dataset units</span></label><input id="basal_tsh" type="number" step="0.1" value="1.2" required></div>
+            <div class="field-row"><label for="max_tsh_difference">Maximum TSH difference after TRH <span>dataset units</span></label><input id="max_tsh_difference" type="number" step="0.1" value="2.0" required></div>
+            <button class="primary-btn submit-btn" type="submit" id="submitBtn">Analyze lab values <span>✦</span></button>
+            <button class="sample-btn" type="button" id="sampleBtn">↻ Load example values from dataset</button>
+          </form>
+          <p class="privacy-note">▣ Demo values stay in this local app session.</p>
+        </div>
+        <div class="panel result-panel">
+          <div class="panel-head"><div><span class="step-label">02 / MODEL OUTPUT</span><h3>Analysis overview</h3></div><span class="result-status"><i></i> READY</span></div>
+          <div class="result-empty" id="emptyState"><div class="empty-orbit"><span>✧</span></div><h3>Your analysis appears here</h3><p>Complete the lab values and run the model to see its educational output.</p><div class="empty-hint">AWAITING INPUT <span>···</span></div></div>
+          <div class="result-content hidden" id="resultContent">
+            <div class="result-kicker">MODEL PATTERN</div><h2 id="predictionTitle">—</h2><p id="predictionDescription">Model output based on the five entered measurements.</p>
+            <div class="confidence-row"><span>Model confidence score</span><b id="confidenceValue">0%</b></div><div class="confidence-track"><div id="confidenceBar"></div></div>
+            <div class="probability-list" id="probabilityList"></div>
+            <div class="result-disclaimer">ⓘ Model confidence is not the probability that you have a disease. Dataset is small and not clinically validated.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-section" id="how-it-works">
+      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> THE PROCESS</div><h2>From lab values to <span class="gradient-text">insight.</span></h2><p>A simple look at the machine-learning workflow.</p></div></div>
+      <div class="steps-grid"><div class="step-card"><span>01</span><div class="step-icon">⌗</div><h3>Input values</h3><p>Enter age and thyroid-related lab measurements.</p></div><div class="step-card"><span>02</span><div class="step-icon">⟁</div><h3>Model analysis</h3><p>A Random Forest model trained on the public UCI New-Thyroid dataset evaluates the five test measurements.</p></div><div class="step-card"><span>03</span><div class="step-icon">✧</div><h3>Explore output</h3><p>View the predicted pattern and model score breakdown.</p></div></div>
+    </section>
+    <section class="notice"><div class="notice-icon">!</div><div><b>Important health notice</b><p>This student project uses a small, historical public thyroid dataset (215 records). The model is for education only, is not clinically validated, and must not be used for diagnosis or treatment. The historical test measurements and units may differ from modern laboratory reports. Consult a qualified healthcare professional.</p></div></section>
+  </main>
+  <footer><a class="brand" href="#"><span class="brand-mark">✦</span><span>thyro<span class="brand-accent">vision</span><small>AI HEALTH LAB</small></span></a><span>STUDENT ML PROJECT · 2026</span><span>Built for learning, not diagnosis.</span></footer>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body></html>
